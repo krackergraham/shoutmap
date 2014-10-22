@@ -5,13 +5,13 @@ var cors = require('cors');
 var bodyParser = require('body-parser');
 
 // Dependency instantiation
-console.log('App starting up...')
+console.log('App starting up...');
 var app = express();
 app.use(cors());
 app.use(bodyParser());
 
-console.log('Connecting to database')
-mongoose.connect('mongodb://localhost/shoutmap')
+console.log('Connecting to database');
+mongoose.connect('mongodb://localhost/shoutmap');
 
 // Model definition
 var Shout = mongoose.model('Shout', {
