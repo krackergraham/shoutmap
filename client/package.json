@@ -1,6 +1,6 @@
 {
-  "name": "shoutmap",
-  "version": "0.0.0",
+  "name": "shoutmap-client",
+  "version": "1.0.0",
   "devDependencies": {
     "gulp": "~3.6.2",
     "gulp-requirejs-bundler": "^0.1.1",

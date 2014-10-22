@@ -1,11 +1,34 @@
 <style>
-	#map-canvas {
-		position: absolute;
-		top: 50px;
-		bottom: 0;
-		right: 0;
-		left: 0
-	}
+    #map-canvas {
+        position: absolute;
+        top: 50px;
+        bottom: 0;
+        right: 0;
+        left: 0
+    }
+
 </style>
+
+<div class="modal fade" id="shout-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <label for="shout-text-input" class="sr-only">Input Shout text </label>
+                <input id="shout-text-input" type="text" data-bind="value: shoutText"/>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                <button type="button" class="btn btn-primary" data-bind="click: addShout">Shout</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <div id='map-canvas'></div>
