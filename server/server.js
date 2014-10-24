@@ -17,27 +17,81 @@ mongoose.connect('mongodb://localhost/shoutmap');
 var Shout = mongoose.model('Shout', {
     text: String,
     location: {
-        lat: String,
-        long: String
+        lat: Number,
+        long: Number
     },
-    parentId: String
+    time: Date
 });
 
-// Routing
-app.get("/all", function (req, res) {
+var Reply = mongoose.model('Reply', {
+    text: String,
+    location: {
+        lat: Number,
+        long: Number
+    },
+    time: Date,
+    parentId: String
+});
+/* Routing */
+
+/* Get
+ * '/all'
+ * Returns all shouts from the database
+ * */
+app.get("/shouts", function (req, res) {
     Shout.find(function (err, shouts) {
         res.send(shouts);
     });
 });
 
+/* Get
+ * '/replies'
+ * Returns all replies from the database
+ * */
+app.get("/replies", function (req, res) {
+    Reply.find(function (err, replies) {
+        res.send(replies);
+    });
+});
+
+/* Post
+ * '/shout'
+ * Saves a new Shout object to the database*/
 app.post('/shout', function (req, res) {
-    var post = req.body;
+    var obj = req.body;
     var shout = new Shout({
-        text: post.text
+        text: obj.text,
+        location: {
+            lat: obj.location.lat,
+            long: obj.location.long
+        },
+        time: obj.time
     });
     shout.save(function (err) {
         if (err) {
             console.log('Error saving shout to database - ' + err);
+        }
+        res.send();
+    })
+});
+
+/* Post
+ * '/reply'
+ * Saves a new Reply object to the database*/
+app.post('/reply', function (req, res) {
+    var obj = req.body;
+    var reply = new Reply({
+        text: obj.text,
+        location: {
+            lat: obj.location.lat,
+            long: obj.location.long
+        },
+        time: obj.time,
+        parentId: obj.parentId
+    });
+    reply.save(function (err) {
+        if (err) {
+            console.log('Error saving reply to database - ' + err);
         }
         res.send();
     })

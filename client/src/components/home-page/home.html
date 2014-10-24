@@ -7,28 +7,98 @@
         left: 0
     }
 
+    #shout-text-input {
+        width: 100%;
+    }
+
+    .btn-shout-back {
+        float: right;
+    }
+
+    .overlay-wrapper {
+        opacity: 0;
+        transition: opacity .2s ease-out
+    }
+
+    .overlay-wrapper.show {
+        opacity: 1;
+        transition: opacity .2s ease-in
+    }
+
+    .overlay {
+        background-color: black;
+        opacity: .5;
+        left: 0;
+        top: 0;
+        right: 0;
+        height: 100%;
+        position: absolute;
+        z-index: 999;
+    }
+
+    .dialog-wrapper {
+        z-index: 1000;
+        left: 50%;
+        width: 500px;
+        position: absolute;
+        background-color: #ffffff;
+        border: 1px solid darkgray;
+        border-radius: 5px;
+        padding: 20px;
+        transform: translate(-50%, 20%)
+    }
+
+    .dialog-header {
+        border-bottom: 1px solid lightgray;
+        margin-bottom: 10px;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .dialog-header h3 {
+        margin-top: 0;
+        float: left;
+    }
+
+    .content {
+        min-height: 50px;
+    }
+
+    .content input {
+        width: 100%;
+    }
+
+    .footer {
+
+    }
+
+    .footer .btn {
+        float: right;
+    }
+
 </style>
 
-<div class="modal fade" id="shout-modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-                        class="sr-only">Close</span></button>
-                <h4 class="modal-title">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                <label for="shout-text-input" class="sr-only">Input Shout text </label>
-                <input id="shout-text-input" type="text" data-bind="value: shoutText"/>
-            </div>
-            <div class="modal-footer">
-                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                <button type="button" class="btn btn-primary" data-bind="click: addShout">Shout</button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
+<div class="overlay-wrapper" data-bind="css: showDialog">
+    <div class="overlay">
     </div>
-    <!-- /.modal-dialog -->
-</div><!-- /.modal -->
+
+    <div class="dialog-wrapper">
+        <div class="dialog-header">
+            <h3>Make some noise</h3>
+            <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true" data-bind="click: close">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+        </div>
+
+        <div class="content">
+            <label class="sr-only" for="text-input">Shout text input</label>
+            <input id="text-input" data-bind="value: shoutText" placeholder="Type your shout here..."/>
+        </div>
+        <div class="footer">
+            <button class="btn btn-default btn-small" data-bind="click: shout, text: btnText"></button>
+        </div>
+    </div>
+</div>
 
 <div id='map-canvas'></div>

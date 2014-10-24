@@ -18,14 +18,13 @@
 
             <ul class="nav navbar-nav">
 
-                <li>
-                    <a href="#" data-toggle="modal" data-target="#shout-modal">Shout</a>
+                <li data-bind="click: shout">
+                    <a href="#">Shout</a>
                 </li>
 
-                <!--<li data-bind="css: { active: route().page === 'about-page' }">-->
-                <!--<a href="#about">About</a>-->
-                <!--</li>-->
-
+                <li data-bind="click: getLocation">
+                    <a href="#">Find Me</a>
+                </li>
             </ul>
 
         </div>

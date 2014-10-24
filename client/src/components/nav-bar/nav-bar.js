@@ -4,5 +4,14 @@ define(['knockout', 'text!./nav-bar.html'], function (ko, template) {
         this.route = params.route;
     }
 
+    NavBarViewModel.prototype.getLocation = function () {
+        ko.postbox.publish("getLocation", true);
+    };
+
+    NavBarViewModel.prototype.shout = function () {
+        ko.postbox.publish("showDialog", true);
+    };
+
+
     return { viewModel: NavBarViewModel, template: template };
 });
