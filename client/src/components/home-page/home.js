@@ -75,7 +75,9 @@ define(["knockout", "text!./home.html", 'async!http://maps.google.com/maps/api/j
                         var replyContent = '<div class="replies">';
 
                         ko.utils.arrayForEach(replies, function (reply) {
-                            replyContent += '<p>' + reply.text + '</p>';
+                            if (reply.parentId === shout._id) {
+                                replyContent += '<p>' + reply.text + '</p>';
+                            }
                         });
                         replyContent += '</div>';
                         var content =
