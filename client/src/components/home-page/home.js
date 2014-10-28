@@ -70,53 +70,67 @@ define(["knockout", "text!./home.html", 'async!http://maps.google.com/maps/api/j
         var self = this;
         $.get("http://localhost:3000/shouts", function (shouts) {
             if (shouts) {
-                $.get("http://localhost:3000/replies", function (replies) {
-                    ko.utils.arrayForEach(shouts, function (shout) {
-                        var replyContent = '<div class="replies">';
+                ko.utils.arrayForEach(shouts, function (shout) {
 
-                        ko.utils.arrayForEach(replies, function (reply) {
-                            if (reply.parentId === shout._id) {
+
+
+
+                    // Instantiate a marker
+                    var marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(shout.location.lat, shout.location.long),
+                        map: self.map(),
+                        title: "Shout!" // TODO: Add title?
+                    });
+
+                    // add the marker to the markers collection
+                    self.markers.push(marker);
+
+                    // Add a click listener (for when the user clicks the marker)
+                    google.maps.event.addListener(marker, 'click', function () {
+                        // Request the replies for the shout
+                        $.get("http://localhost:3000/replies/" + shout._id, function (replies) {
+                            // Create the reply html containing div
+                            var replyContent = '<div class="replies" id="replies-' + shout._id + '">';
+                            // Iterate through the replies
+                            ko.utils.arrayForEach(replies, function (reply) {
+                                // and add the reply's text to the container
                                 replyContent += '<p>' + reply.text + '</p>';
-                            }
+                            });
+                            // close the reply div
+                            replyContent += '</div>';
+
+                            // Create the rest of the info window content html
+                            var content =
+                                '<div id="content">' +
+                                '<div id="siteNotice">' + '</div>' +
+                                '<h3 id="firstHeading">' + shout.text + '</h3>' +
+                                '<div id="bodyContent">' +
+                                replyContent +
+                                '<p class="timestamp">' + new Date(shout.time).toLocaleString() + '</p>' +
+                                '</div>' +
+                                '<button id="reply-btn-' + shout._id + '" class="btn btn-default btn-sm btn-shout-back" data-shout=' + JSON.stringify(shout) + '>' + "Shout Back" + '</button>' +
+                                '</div>';
+
+                            // Instantiate the info window passing in the content
+                            var infoWindow = new google.maps.InfoWindow({
+                                content: content
+                            });
+
+                            // Add an event listener to the domready event on the infoWindow
+                            google.maps.event.addListener(infoWindow, 'domready', function () {
+                                // Get reference to the reply button based on shout id
+                                var btn = document.getElementById('reply-btn-' + shout._id);
+                                // apply knockout bindings to the button
+                                ko.applyBindingsToNode(btn, { click: self.replyToShout }, self);
+
+                                // Scroll to the bottom of the replies container
+                                var replies = document.getElementById('replies-' + shout._id);
+                                replies.scrollTop = replies.scrollHeight;
+                            });
+
+                            // Open the info window
+                            infoWindow.open(self.map(), marker);
                         });
-                        replyContent += '</div>';
-                        var content =
-                            '<div id="content">' +
-                            '<div id="siteNotice">' + '</div>' +
-                            '<h3 id="firstHeading">' + shout.text + '</h3>' +
-                            '<div id="bodyContent">' +
-                            replyContent +
-                            '<p>' + new Date(shout.time).toLocaleString() + '</p>' +
-                            '</div>' +
-                            '<button id="reply-btn-' + shout._id + '" class="btn btn-default btn-sm btn-shout-back" data-shout=' + JSON.stringify(shout) + '>' + "Shout Back" + '</button>' +
-                            '</div>';
-
-                        var infowindow = new google.maps.InfoWindow({
-                            content: content
-                        });
-
-                        google.maps.event.addListener(infowindow, 'domready', function () {
-//                        document.getElementById('reply-btn-' + shout._id).onclick = function (e) {
-//                            e.preventDefault();
-//                            self.replyToShout(shout);
-//                        }
-                            var btn = document.getElementById('reply-btn-' + shout._id);
-
-                            ko.applyBindingsToNode(btn, { click: self.replyToShout }, self);
-                        });
-
-                        var marker = new google.maps.Marker({
-                            position: new google.maps.LatLng(shout.location.lat, shout.location.long),
-                            map: self.map(),
-                            title: "Shout!" // TODO: Add title?
-                        });
-
-                        self.markers.push(marker);
-
-                        google.maps.event.addListener(marker, 'click', function () {
-                            infowindow.open(self.map(), marker);
-                        });
-
                     });
                 });
             }

@@ -54,6 +54,16 @@ app.get("/replies", function (req, res) {
     });
 });
 
+/* Get
+ * '/replies/{id}'
+ * Returns all replies for a shout from the database
+ * */
+app.get("/replies/:id", function (req, res) {
+    Reply.find({parentId: req.params.id},function (err, replies) {
+        res.send(replies);
+    });
+});
+
 /* Post
  * '/shout'
  * Saves a new Shout object to the database*/
