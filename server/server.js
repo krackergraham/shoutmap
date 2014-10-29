@@ -18,7 +18,7 @@ app.use(cors());
 app.use(bodyParser());
 app.use(logger.request);
 
-app.use(express.static(path.join(__dirname, '../client/dist/')));
+app.use(express.static(path.join(__dirname, './public/')));
 
 routes.initialize(app);
 
