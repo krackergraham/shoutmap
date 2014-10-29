@@ -23,15 +23,15 @@ app.use(express.static(path.join(__dirname, './public/')));
 routes.initialize(app);
 
 // Connect to the backing database
-console.log('Connecting to database...');
+logger.log('Connecting to database...');
 mongoose.connect('mongodb://localhost/shoutmap');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
 db.once('open', function callback() {
-    console.log('Connected to MongoDB: ' + db.name);
+    logger.success('Connected to MongoDB: ' + db.name);
 });
 
 // Create the server from the app and listen to the given port
 http.createServer(app).listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + app.get('port'));
+    logger.log('Express server listening on port ' + app.get('port'));
 });

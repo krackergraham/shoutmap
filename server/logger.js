@@ -6,7 +6,22 @@ function request(req, res, next) {
     next();
 }
 
+function error(msg) {
+    console.log(chalk.red('Error: ' + msg));
+}
+
+function log(msg) {
+    console.log(chalk.white(msg));
+}
+
+function success(msg) {
+    console.log(chalk.green(msg));
+}
 
 
-
-exports.request = request;
+module.exports = {
+    request: request,
+    error: error,
+    log: log,
+    success: success
+};
