@@ -16,7 +16,7 @@ app.set('port', process.env.PORT || 3000);
 
 app.use(cors());
 app.use(bodyParser());
-app.use(logger);
+app.use(logger.request);
 
 app.use(express.static(path.join(__dirname, '../client/dist/')));
 
