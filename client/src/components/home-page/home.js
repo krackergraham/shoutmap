@@ -1,4 +1,4 @@
-define(["knockout", "text!./home.html", 'async!http://maps.google.com/maps/api/js?sensor=false'], function (ko, homeTemplate) {
+define(["knockout", "text!./home.html", 'async!https://maps.google.com/maps/api/js?sensor=false'], function (ko, homeTemplate) {
 
     function HomeViewModel(route) {
         var self = this;
@@ -68,7 +68,7 @@ define(["knockout", "text!./home.html", 'async!http://maps.google.com/maps/api/j
 
     HomeViewModel.prototype.getShouts = function () {
         var self = this;
-        $.get("http://localhost:3000/api/shouts", function (shouts) {
+        $.get("/api/shouts", function (shouts) {
             if (shouts) {
                 ko.utils.arrayForEach(shouts, function (shout) {
 
@@ -88,7 +88,7 @@ define(["knockout", "text!./home.html", 'async!http://maps.google.com/maps/api/j
                     // Add a click listener (for when the user clicks the marker)
                     google.maps.event.addListener(marker, 'click', function () {
                         // Request the replies for the shout
-                        $.get("http://localhost:3000/api/replies/" + shout._id, function (replies) {
+                        $.get("/api/replies/" + shout._id, function (replies) {
                             // Create the reply html containing div
                             var replyContent = '<div class="replies" id="replies-' + shout._id + '">';
                             // Iterate through the replies
@@ -108,7 +108,7 @@ define(["knockout", "text!./home.html", 'async!http://maps.google.com/maps/api/j
                                 replyContent +
                                 '<p class="timestamp">' + new Date(shout.time).toLocaleString() + '</p>' +
                                 '</div>' +
-                                '<button id="reply-btn-' + shout._id + '" class="btn btn-default btn-sm btn-shout-back" data-shout=' + JSON.stringify(shout) + '>' + "Shout Back" + '</button>' +
+                                '<button id="reply-btn-' + shout._id + '" class="btn btn-default btn-sm btn-shout-back" data-id=' + shout._id + '>' + "Shout Back" + '</button>' +
                                 '</div>';
 
                             // Instantiate the info window passing in the content
@@ -152,7 +152,7 @@ define(["knockout", "text!./home.html", 'async!http://maps.google.com/maps/api/j
             parentId: this.parentId()
         };
 
-        var url = "http://localhost:3000/api/";
+        var url = "/api/";
         url += this.isReply() ? 'reply' : 'shout';
         $.post(url, shout, function () {
             // Close the dialog
@@ -164,9 +164,8 @@ define(["knockout", "text!./home.html", 'async!http://maps.google.com/maps/api/j
     };
 
     HomeViewModel.prototype.replyToShout = function (shout, e) {
-        var parent = JSON.parse(e.currentTarget.dataset.shout);
-
-        this.parentId(parent._id);
+        var id = e.currentTarget.dataset.id;
+        this.parentId(id);
         this.isReply(true);
         this.showDialog('show');
     };
