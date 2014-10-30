@@ -12,7 +12,7 @@
         "node": "0.10.x"
     },
     "scripts": {
-        "start": "node app.js",
+        "start": "node server.js",
         "postinstall": "cd client && npm install"
     }
 }
