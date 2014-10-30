@@ -10,9 +10,7 @@
         "requirejs-text": "~2.0.10",
         "knockout": "~3.2.0-alpha",
         "knockout-projections": "~1.1.0-pre",
-        "knockout-postbox": "~0.4.2"
-    },
-    "devDependencies": {
+        "knockout-postbox": "~0.4.2",
         "requirejs-plugins": "~1.0.2"
     }
 }
