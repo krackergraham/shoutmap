@@ -1,0 +1,7 @@
+{
+  "name": "Shoutmap",
+  "description": "Shout, shout it on out",
+  "repository": "https://github.com/krackergraham/shoutmap",
+  "logo": "http://shoutmap.herokuapp.com/node.svg",
+  "keywords": ["node", "express", "static"]
+}

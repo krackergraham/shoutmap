@@ -16,22 +16,23 @@ app.set('port', process.env.PORT || 3000);
 
 app.use(cors());
 app.use(bodyParser());
-app.use(logger);
+app.use(logger.request);
 
-app.use(express.static(path.join(__dirname, '../client/dist/')));
+app.use(express.static(path.join(__dirname, './public/')));
 
 routes.initialize(app);
 
 // Connect to the backing database
-console.log('Connecting to database...');
-mongoose.connect('mongodb://localhost/shoutmap');
+logger.log('Connecting to database...');
+var dbUrl = process.env.NODE_ENV === "production" ? process.env.MONGOHQ_URL : 'mongodb://localhost/shoutmap';
+mongoose.connect(dbUrl);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
 db.once('open', function callback() {
-    console.log('Connected to MongoDB: ' + db.name);
+    logger.success('Connected to MongoDB: ' + db.name);
 });
 
 // Create the server from the app and listen to the given port
 http.createServer(app).listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + app.get('port'));
+    logger.log('Express server listening on port ' + app.get('port'));
 });

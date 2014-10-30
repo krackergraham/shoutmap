@@ -14,16 +14,6 @@ this.initialize = function (app) {
     });
 
     /* Get
-     * '/replies'
-     * Returns all replies from the database
-     * */
-    app.get("/api/replies", function (req, res) {
-        Reply.find(function (err, replies) {
-            res.send(replies);
-        });
-    });
-
-    /* Get
      * '/replies/{id}'
      * Returns all replies for a shout from the database
      * */
