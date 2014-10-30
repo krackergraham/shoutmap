@@ -4,9 +4,9 @@ var http = require('http'),
     mongoose = require('mongoose'),
     cors = require('cors'),
     bodyParser = require('body-parser'),
-    logger = require('./server/logger'),
+    logger = require('./app/logger'),
     path = require('path'),
-    routes = require('./server/routes.js');
+    routes = require('./app/routes.js');
 
 // Dependency instantiation
 console.log('App starting up...');
