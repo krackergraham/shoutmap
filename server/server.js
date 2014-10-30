@@ -24,7 +24,8 @@ routes.initialize(app);
 
 // Connect to the backing database
 logger.log('Connecting to database...');
-mongoose.connect('mongodb://localhost/shoutmap');
+var dbUrl = process.env.NODE_ENV === "production" ? process.env.MONGOHQ_URL : 'mongodb://localhost/shoutmap';
+mongoose.connect(dbUrl);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
 db.once('open', function callback() {
