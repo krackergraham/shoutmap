@@ -5,7 +5,7 @@ var fs = require('fs'), vm = require('vm'), merge = require('deeply'), chalk = r
 var gulp = require('gulp'), rjs = require('gulp-requirejs-bundler'), concat = require('gulp-concat'), clean = require('gulp-clean'),
     replace = require('gulp-replace'), uglify = require('gulp-uglify'), htmlreplace = require('gulp-html-replace');
 
-var dest = '../server/public/';
+var dest = '../public/';
 
 // Config
 var requireJsRuntimeConfig = vm.runInNewContext(fs.readFileSync('src/app/require.config.js') + '; require;');
