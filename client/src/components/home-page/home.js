@@ -71,10 +71,6 @@ define(["knockout", "text!./home.html", 'async!https://maps.google.com/maps/api/
         $.get("/api/shouts", function (shouts) {
             if (shouts) {
                 ko.utils.arrayForEach(shouts, function (shout) {
-
-
-
-
                     // Instantiate a marker
                     var marker = new google.maps.Marker({
                         position: new google.maps.LatLng(shout.location.lat, shout.location.long),
