@@ -4,14 +4,14 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     morgan = require('morgan'),
     path = require('path'),
-    dbConnector = require('./dbConnector');
+    database = require('./database');
 router = require('./api/routes');
 
 var app = module.exports = express();
 
 console.log('App initializing...');
 
-dbConnector.connect();                                          // Connect to the database
+database.connect();                                             // Connect to the database
 
 app.set('port', process.env.PORT || 3000);                      // Set the port
 
@@ -22,7 +22,7 @@ app.use(bodyParser.json({type: 'application/vnd.api+json'}));   // parse applica
 app.use(morgan('dev'));                                         // log all incoming requests
 app.use(express.static(path.join(__dirname, '../public')));     // serve static files from the public directory
 app.use('/api', router);                                        // setup Routes
-app.get('*', function (req, res) {                              // load the single view file (angular will handle the page changes on the front-end)
+app.get('*', function (req, res) {                              // load the single view file (angular will handle the page routing on the front-end)
     res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
