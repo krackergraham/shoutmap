@@ -4,6 +4,8 @@ var express = require('express'),
 
 var router = module.exports = express.Router();
 
+// =============== BEGIN GET ===============
+
 /* Get
  * '/shouts'
  * Returns all shouts from the database
@@ -26,45 +28,58 @@ router.route('/replies/:id')
         });
     });
 
+// ================ END GET ================
+
+// =============== BEGIN POST ==============
+
 /* Post
  * '/shout'
  * Saves a new Shout object to the database*/
-router.post('/shout', function (req, res) {
-    var obj = req.body;
-    var shout = new Shout({
-        text: obj.text,
-        location: {
-            lat: obj.location.lat,
-            long: obj.location.long
-        },
-        time: obj.time
+router.route('/shout')
+    .post(function (req, res) {
+        var obj = req.body;
+        var shout = new Shout({
+            text: obj.text,
+            location: {
+                lat: obj.location.lat,
+                long: obj.location.long
+            },
+            time: obj.time
+        });
+        shout.save(function (err) {
+            if (err) {
+                console.log('Error saving shout to database - ' + err);
+            }
+            res.send();
+        })
     });
-    shout.save(function (err) {
-        if (err) {
-            console.log('Error saving shout to database - ' + err);
-        }
-        res.send();
-    })
-});
 
 /* Post
  * '/reply'
  * Saves a new Reply object to the database*/
-router.post('/reply', function (req, res) {
-    var obj = req.body;
-    var reply = new Reply({
-        text: obj.text,
-        location: {
-            lat: obj.location.lat,
-            long: obj.location.long
-        },
-        time: obj.time,
-        parentId: obj.parentId
+router.route('/reply')
+    .post(function (req, res) {
+        var obj = req.body;
+        var reply = new Reply({
+            text: obj.text,
+            location: {
+                lat: obj.location.lat,
+                long: obj.location.long
+            },
+            time: obj.time,
+            parentId: obj.parentId
+        });
+        reply.save(function (err) {
+            if (err) {
+                console.log('Error saving reply to database - ' + err);
+            }
+            res.send();
+        })
     });
-    reply.save(function (err) {
-        if (err) {
-            console.log('Error saving reply to database - ' + err);
-        }
-        res.send();
-    })
-});
+
+// ================ END POST ================
+//
+//router.route('/')
+//    .get(function (req, res) {
+//        res.sendFile(path.join(__dirname, '../public/index.html')); // load the single view file (angular will handle the page changes on the front-end)
+//    });
