@@ -10,5 +10,5 @@ angular.module('ShoutService', []).factory('Shout', ['$http', function ($http) {
         create: function (shoutData) {
             return $http.post('/api/shouts', shoutData);
         }
-    }
+    };
 }]);

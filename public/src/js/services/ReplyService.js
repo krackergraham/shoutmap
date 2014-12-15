@@ -10,5 +10,5 @@ angular.module('ReplyService', []).factory('Reply', ['$http', function ($http) {
         create: function (replyData) {
             return $http.post('/api/reply', replyData);
         }
-    }
+    };
 }]);
