@@ -1,5 +1,5 @@
 // public/js/services/ShoutService.js
-angular.module('ShoutService', []).factory('Shout', ['$http', function ($http) {
+angular.module('ShoutService', []).factory('Shouts', ['$http', function ($http) {
     return {
         // call to get all shouts
         get: function () {

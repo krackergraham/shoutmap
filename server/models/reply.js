@@ -2,11 +2,8 @@ var mongoose = require('mongoose');
 
 var reply = mongoose.model('Reply', {
     text: String,
-    location: {
-        lat: Number,
-        long: Number
-    },
-    time: Date,
+    coords: {type: [Number], index: '2dsphere'},
+    created: {type: Date, default: Date.now},
     parentId: String
 });
 

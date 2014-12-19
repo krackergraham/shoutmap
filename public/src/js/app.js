@@ -2,5 +2,6 @@ angular.module('shoutApp', [
     'ngRoute',
     'appRoutes',
     'MainCtrl',
-    'NerdCtrl'
+    'ShoutService',
+    'ReplyService'
 ]);

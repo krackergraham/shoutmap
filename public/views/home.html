@@ -1,5 +1,19 @@
-<div class="jumbotron text-center">
-    <h1>Home Page 4 Life</h1>
+<style>
 
-    <p>{{ tagline }}</p>
-</div>
+
+    .angular-google-map-container {
+        height: 500px;
+        width: 100%;
+    }
+</style>
+
+<ui-gmap-google-map
+        center="map.center"
+        zoom="map.zoom">
+    <ui-gmap-marker ng-repeat="marker in markers"
+                    coords="marker.coords"
+                    options="marker.options"
+                    events="marker.events"
+                    idkey="marker.id">
+    </ui-gmap-marker>
+</ui-gmap-google-map>

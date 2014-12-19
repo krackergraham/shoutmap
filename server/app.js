@@ -4,7 +4,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     morgan = require('morgan'),
     path = require('path'),
-    database = require('./database');
+    database = require('./db/connector');
 router = require('./api/routes');
 
 var app = module.exports = express();

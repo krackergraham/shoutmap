@@ -1,5 +1,5 @@
 // public/js/services/ShoutService.js
-angular.module('ReplyService', []).factory('Reply', ['$http', function ($http) {
+angular.module('ReplyService', []).factory('Replies', ['$http', function ($http) {
     return {
         // call to get all replies for a shout
         get: function (id) {

@@ -9,7 +9,7 @@ module.exports = function (grunt) {
             all: ['public/src/js/**/*.js']
         },
 
-        // handle angular DI before minification
+        // handle angular DI before uglify
         ngAnnotate: {
             build: {
                 files: {
@@ -23,6 +23,9 @@ module.exports = function (grunt) {
             build: {
                 files: {
                     'public/dist/js/app.min.js': ['public/dist/js/app.js']
+                },
+                options: {
+                    sourceMap: true
                 }
             }
         },
@@ -55,7 +58,7 @@ module.exports = function (grunt) {
             },
             js: {
                 files: ['public/src/js/**/*.js'],
-                tasks: ['jshint', 'uglify']
+                tasks: ['jshint', 'ngAnnotate', 'uglify']
             }
         },
 

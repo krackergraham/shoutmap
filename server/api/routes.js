@@ -1,29 +1,28 @@
 var express = require('express'),
-    Shout = require('../models/shout'),
-    Reply = require('../models/reply');
+    dataProvider = require('../db/provider');
 
 var router = module.exports = express.Router();
 
 // =============== BEGIN GET ===============
 
 /* Get
- * '/shouts'
+ * '/api/shouts'
  * Returns all shouts from the database
  * */
 router.route('/shouts')
     .get(function (req, res) {
-        Shout.find(function (err, shouts) {
+        dataProvider.shouts(function (shouts) {
             res.send(shouts);
         });
     });
 
 /* Get
- * '/replies/{id}'
+ * '/api/replies/{id}'
  * Returns all replies for a shout from the database
  * */
 router.route('/replies/:id')
     .get(function (req, res) {
-        Reply.find({parentId: req.params.id}, function (err, replies) {
+        dataProvider.repliesForShout(req.params.id, function (replies) {
             res.send(replies);
         });
     });
@@ -33,53 +32,25 @@ router.route('/replies/:id')
 // =============== BEGIN POST ==============
 
 /* Post
- * '/shout'
+ * '/api/shout'
  * Saves a new Shout object to the database*/
 router.route('/shout')
     .post(function (req, res) {
-        var obj = req.body;
-        var shout = new Shout({
-            text: obj.text,
-            location: {
-                lat: obj.location.lat,
-                long: obj.location.long
-            },
-            time: obj.time
+        var shout = req.body;
+        dataProvider.saveShout(shout.text, shout.location.long, shout.location.lat, function (success) {
+            res.send(success);
         });
-        shout.save(function (err) {
-            if (err) {
-                console.log('Error saving shout to database - ' + err);
-            }
-            res.send();
-        })
     });
 
 /* Post
- * '/reply'
+ * '/api/reply'
  * Saves a new Reply object to the database*/
 router.route('/reply')
     .post(function (req, res) {
-        var obj = req.body;
-        var reply = new Reply({
-            text: obj.text,
-            location: {
-                lat: obj.location.lat,
-                long: obj.location.long
-            },
-            time: obj.time,
-            parentId: obj.parentId
+        var reply = req.body;
+        dataProvider.saveReply(reply.text, reply.location.long, reply.location.lat, reply.parentId, function (success) {
+            res.send(success);
         });
-        reply.save(function (err) {
-            if (err) {
-                console.log('Error saving reply to database - ' + err);
-            }
-            res.send();
-        })
     });
 
 // ================ END POST ================
-//
-//router.route('/')
-//    .get(function (req, res) {
-//        res.sendFile(path.join(__dirname, '../public/index.html')); // load the single view file (angular will handle the page changes on the front-end)
-//    });
